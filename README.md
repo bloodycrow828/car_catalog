@@ -27,4 +27,4 @@ php yii fixture/load '*' --namespace='common\fixtures'
 логин adm
 пароль password_0 
 
-Наслождаемся приложением
+Наслаждаемся приложением
