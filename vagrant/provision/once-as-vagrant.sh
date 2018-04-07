@@ -25,11 +25,15 @@ cd /app
 composer --no-progress --prefer-dist install
 
 info "Init project"
-./init --env=Development --overwrite=y
+php init --env=Development --overwrite=y
 
 info "Apply migrations"
-./yii migrate --interactive=0
-./yii_test migrate --interactive=0
+php yii migrate --interactive=0
+php yii_test migrate --interactive=0
+
+info "Apply fixtures"
+php yii fixture/load '*' --namespace='common\fixtures' --interactive=0
+
 
 info "Create bash-alias 'app' for vagrant user"
 echo 'alias app="cd /app"' | tee /home/vagrant/.bash_aliases

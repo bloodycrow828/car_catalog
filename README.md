@@ -21,7 +21,6 @@ BINN Test System
 
 5. Загружаем фикстуры
 
-php yii fixture/load '*' --namespace='common\fixtures'
 
 6. Логинимся в приложение: 
 логин adm
