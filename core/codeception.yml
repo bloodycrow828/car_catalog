@@ -1,4 +1,4 @@
-namespace: shop\tests
+namespace: core\tests
 actor: Tester
 paths:
     tests: tests

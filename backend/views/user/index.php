@@ -5,7 +5,7 @@ use core\entities\User\User;
 use core\helpers\UserHelper;
 use kartik\date\DatePicker;
 
-use yii\grid\ActionColumn;
+
 use yii\helpers\Html;
 use yii\grid\GridView;
 
@@ -39,7 +39,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'separator' => '-',
                             'pluginOptions' => [
                                 'todayHighlight' => true,
-                                'autoclose'=>true,
+                                'autoclose' => true,
                                 'format' => 'yyyy-mm-dd',
                             ],
                         ]),
@@ -47,10 +47,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     [
                         'attribute' => 'username',
-                        'value' => function (User $model) {
-                            return Html::a(Html::encode($model->username), ['view', 'id' => $model->id]);
-                        },
-                        'format' => 'raw',
                     ],
                     'email:email',
                     [
@@ -66,7 +62,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         },
                         'format' => 'raw',
                     ],
-                    ['class' => ActionColumn::class],
                 ],
             ]); ?>
         </div>

@@ -1,13 +1,14 @@
 <?php
 
+use core\entities\catalog\Category;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $category shop\entities\Shop\Category */
+/* @var $category Category */
 
 $this->title = $category->name;
-$this->params['breadcrumbs'][] = ['label' => 'Categories', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Модели', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-view">
@@ -51,17 +52,4 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
 
-    <div class="box">
-        <div class="box-header with-border">SEO</div>
-        <div class="box-body">
-            <?= DetailView::widget([
-                'model' => $category,
-                'attributes' => [
-                    'meta.title',
-                    'meta.description',
-                    'meta.keywords',
-                ],
-            ]) ?>
-        </div>
-    </div>
 </div>

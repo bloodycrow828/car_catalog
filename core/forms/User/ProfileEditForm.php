@@ -1,8 +1,8 @@
 <?php
 
-namespace shop\forms\User;
+namespace core\forms\User;
 
-use shop\entities\User\User;
+
 use yii\base\Model;
 
 class ProfileEditForm  extends Model

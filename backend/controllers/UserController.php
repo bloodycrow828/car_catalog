@@ -2,13 +2,12 @@
 
 namespace backend\controllers;
 
-
 use backend\forms\UserSearch;
 use core\entities\User\User;
 use core\services\manage\UserManageService;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 
 class UserController extends Controller
@@ -39,6 +38,7 @@ class UserController extends Controller
     /**
      * Lists all User models.
      * @return mixed
+     * @throws \yii\base\InvalidArgumentException
      */
     public function actionIndex()
     {
@@ -48,67 +48,6 @@ class UserController extends Controller
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * Displays a single User model.
-     * @param integer $id
-     * @return string
-     * @throws NotFoundHttpException
-     */
-    public function actionView($id): string
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-
-    /**
-     * Creates a new User model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $form = new UserCreateForm();
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $user = $this->service->create($form);
-                return $this->redirect(['view', 'id' => $user->id]);
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
-        }
-        return $this->render('create', [
-            'model' => $form,
-        ]);
-    }
-
-    /**
-     * Updates an existing User model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     */
-    public function actionUpdate($id)
-    {
-        $user = $this->findModel($id);
-
-        $form = new UserEditForm($user);
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
-            try {
-                $this->service->edit($user->id, $form);
-                return $this->redirect(['view', 'id' => $user->id]);
-            } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
-            }
-        }
-        return $this->render('update', [
-            'model' => $form,
-            'user' => $user,
         ]);
     }
 
@@ -131,12 +70,11 @@ class UserController extends Controller
      * @return User the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
+    protected function findModel($id): User
     {
         if (($model = User::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 }

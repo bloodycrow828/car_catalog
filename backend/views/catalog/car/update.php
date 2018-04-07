@@ -1,45 +1,29 @@
 <?php
 
-use mihaildev\ckeditor\CKEditor;
+use core\entities\catalog\car\Car;
+use core\forms\manage\catalog\Car\CarEditForm;
+
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $product shop\entities\Shop\Product\Product */
-/* @var $model shop\forms\manage\Shop\Product\CarEditForm */
+/* @var $car Car */
+/* @var $model CarEditForm */
 
-$this->title = 'Редактирование товара: ' . $product->name;
-$this->params['breadcrumbs'][] = ['label' => 'Товары', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $product->name, 'url' => ['view', 'id' => $product->id]];
+$this->title = 'Редактирование: ' . $car->name;
+$this->params['breadcrumbs'][] = ['label' => 'Автомобили', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => $car->name, 'url' => ['view', 'id' => $car->id]];
 $this->params['breadcrumbs'][] = 'Редактирование';
 ?>
-<div class="product-update">
+<div class="car-update">
 
     <?php $form = ActiveForm::begin(); ?>
-
-    <div class="box box-default">
-        <div class="box-header with-border">Общие сведения</div>
-        <div class="box-body">
-            <div class="row">
-                <div class="col-md-2">
-                    <?= $form->field($model, 'code')->textInput(['maxlength' => true]) ?>
-                </div>
-                <div class="col-md-4">
-                    <?= $form->field($model, 'brandId')->dropDownList($model->brandsList())->label('Брэнд') ?>
-                </div>
-                <div class="col-md-10">
-                    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
-                </div>
-            </div>
-            <?= $form->field($model, 'description')->widget(CKEditor::class) ?>
-        </div>
-    </div>
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-8">
             <div class="box box-default">
-                <div class="box-header with-border">Складские параметры</div>
+                <div class="box-header with-border">Общие сведения</div>
                 <div class="box-body">
-                    <?= $form->field($model, 'weight')->textInput(['maxlength' => true]) ?>
+                    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                 </div>
             </div>
         </div>
@@ -52,38 +36,9 @@ $this->params['breadcrumbs'][] = 'Редактирование';
                 </div>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="box box-default">
-                <div class="box-header with-border">Метки</div>
-                <div class="box-body">
-                    <?= $form->field($model->tags, 'existing')->checkboxList($model->tags->tagsList()) ?>
-                    <?= $form->field($model->tags, 'textNew')->textInput() ?>
-                </div>
-            </div>
-        </div>
+
     </div>
 
-    <div class="box box-default">
-        <div class="box-header with-border">Характеристики</div>
-        <div class="box-body">
-            <?php foreach ($model->values as $i => $value): ?>
-                <?php if ($variants = $value->variantsList()): ?>
-                    <?= $form->field($value, '[' . $i . ']value')->dropDownList($variants, ['prompt' => '']) ?>
-                <?php else: ?>
-                    <?= $form->field($value, '[' . $i . ']value')->textInput() ?>
-                <?php endif ?>
-            <?php endforeach; ?>
-        </div>
-    </div>
-
-    <div class="box box-default">
-        <div class="box-header with-border">SEO</div>
-        <div class="box-body">
-            <?= $form->field($model->meta, 'title')->textInput() ?>
-            <?= $form->field($model->meta, 'description')->textarea(['rows' => 2]) ?>
-            <?= $form->field($model->meta, 'keywords')->textInput() ?>
-        </div>
-    </div>
 
     <div class="form-group">
         <?= Html::submitButton('Сохранить', ['class' => 'btn btn-success']) ?>

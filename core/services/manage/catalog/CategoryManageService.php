@@ -1,22 +1,22 @@
 <?php
 
-namespace shop\useCases\manage\Shop;
+namespace core\services\manage\catalog;
 
-use shop\entities\Meta;
-use shop\entities\Shop\Category;
-use shop\forms\manage\Shop\CategoryForm;
-use shop\repositories\Shop\CategoryRepository;
-use shop\repositories\Shop\ProductRepository;
+use core\entities\catalog\Category;
+use core\entities\Meta;
+use core\forms\manage\catalog\CategoryForm;
+use core\repositories\catalog\CarRepository;
+use core\repositories\catalog\CategoryRepository;
 
 class CategoryManageService
 {
     private $categories;
-    private $products;
+    private $cars;
 
-    public function __construct(CategoryRepository $categories, ProductRepository $products)
+    public function __construct(CategoryRepository $categories, CarRepository $cars)
     {
         $this->categories = $categories;
-        $this->products = $products;
+        $this->cars = $cars;
     }
 
     public function create(CategoryForm $form): Category
@@ -26,12 +26,7 @@ class CategoryManageService
             $form->name,
             $form->slug,
             $form->title,
-            $form->description,
-            new Meta(
-                $form->meta->title,
-                $form->meta->description,
-                $form->meta->keywords
-            )
+            $form->description
         );
         $category->appendTo($parent);
         $this->categories->save($category);
@@ -46,12 +41,7 @@ class CategoryManageService
             $form->name,
             $form->slug,
             $form->title,
-            $form->description,
-            new Meta(
-                $form->meta->title,
-                $form->meta->description,
-                $form->meta->keywords
-            )
+            $form->description
         );
         if ($form->parentId !== $category->parent->id) {
             $parent = $this->categories->get($form->parentId);
@@ -84,8 +74,8 @@ class CategoryManageService
     {
         $category = $this->categories->get($id);
         $this->assertIsNotRoot($category);
-        if ($this->products->existsByMainCategory($category->id)) {
-            throw new \DomainException('Unable to remove category with products.');
+        if ($this->cars->existsByMainCategory($category->id)) {
+            throw new \DomainException('Unable to remove category with cars.');
         }
         $this->categories->remove($category);
     }

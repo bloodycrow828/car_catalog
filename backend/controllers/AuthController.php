@@ -35,6 +35,7 @@ class AuthController extends Controller
 
     /**
      * @return mixed
+     * @throws \yii\base\InvalidArgumentException
      */
     public function actionLogin()
     {

@@ -2,7 +2,6 @@
 
 namespace core\forms\manage\User;
 
-use shop\entities\User\User;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;
 

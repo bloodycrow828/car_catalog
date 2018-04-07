@@ -31,13 +31,12 @@ class  CategoryData extends ActiveRecord
 
     public static function tableName(): string
     {
-        return '{{%catalog_categories}}';
+        return '{{%categories}}';
     }
 
     public function behaviors(): array
     {
         return [
-            MetaBehavior::class,
             NestedSetsBehavior::class,
         ];
     }

@@ -2,15 +2,14 @@
 
 namespace core\services\manage\catalog;
 
-use core\entities\catalog\car;
-use core\entities\Meta;
+use core\entities\catalog\car\Car;
 use core\forms\manage\catalog\Car\CarCreateForm;
+use core\forms\manage\catalog\car\CarEditForm;
 use core\forms\manage\catalog\Car\PhotoForm;
 use core\forms\manage\catalog\Car\PriceForm;
 use core\repositories\catalog\CarRepository;
 use core\repositories\catalog\CategoryRepository;
 use core\services\common\TransactionManager;
-use shop\forms\manage\Shop\car\CarEditForm;
 
 
 class CarManageService
@@ -34,18 +33,12 @@ class CarManageService
     {
         $category = $this->categories->get($form->categories->main);
 
-        $car = Car::create(
-            $category->id,
-            $form->name,
-            new Meta(
-                $form->meta->title,
-                $form->meta->description
-            )
-        );
+        $car = Car::create($category->id, $form->name);
 
         $car->setPrice($form->price->new);
-        $car->addPhoto($form->photo->file);
-
+        if ($form->photo->file !== null) {
+            $car->addPhoto($form->photo->file);
+        }
         foreach ($form->categories->others as $otherId) {
             $category = $this->categories->get($otherId);
             $car->assignCategory($category->id);
@@ -64,13 +57,7 @@ class CarManageService
         $car = $this->cars->get($id);
         $category = $this->categories->get($form->categories->main);
 
-        $car->edit(
-            $form->name,
-            new Meta(
-                $form->meta->title,
-                $form->meta->description
-            )
-        );
+        $car->edit($form->name);
 
         $car->changeMainCategory($category->id);
 
@@ -105,21 +92,21 @@ class CarManageService
     public function deactivate($id): void
     {
         $car = $this->cars->get($id);
-        $car->draft();
+        $car->deactivate();
         $this->cars->save($car);
     }
 
-    public function addPhoto($id, PhotoForm $form): void
+    public function addPhoto(int $id, PhotoForm $form): void
     {
         $car = $this->cars->get($id);
         $car->addPhoto($form->file);
         $this->cars->save($car);
     }
 
-    public function removePhoto($id, $photoId): void
+    public function removePhoto($id): void
     {
         $car = $this->cars->get($id);
-        $car->removePhoto($photoId);
+        $car->removePhoto();
         $this->cars->save($car);
     }
 

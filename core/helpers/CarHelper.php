@@ -2,19 +2,16 @@
 
 namespace core\helpers;
 
-
-use core\entities\catalog\car;
+use core\entities\catalog\car\Car;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 class CarHelper
 {
-
-
     public static function statusList(): array
     {
         return [
-            Car::STATUS_DRAFT => 'Деактивирован',
+            Car::STATUS_DEACTIVATE => 'Деактивирован',
             Car::STATUS_ACTIVE => 'Активен',
         ];
     }
@@ -27,7 +24,7 @@ class CarHelper
     public static function statusLabel($status): string
     {
         switch ($status) {
-            case Car::STATUS_DRAFT:
+            case Car::STATUS_DEACTIVATE:
                 $class = 'label label-default';
                 break;
             case Car::STATUS_ACTIVE:

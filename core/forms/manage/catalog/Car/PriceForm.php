@@ -2,7 +2,7 @@
 
 namespace core\forms\manage\catalog\Car;
 
-use core\entities\catalog\car;
+use core\entities\catalog\car\Car;
 use core\helpers\PriceHelper;
 use yii\base\Model;
 
@@ -13,7 +13,7 @@ class PriceForm extends Model
     public function __construct(Car $car = null, $config = [])
     {
         if ($car) {
-            $this->new = $car->price_new;
+            $this->new = $car->price;
         }
         parent::__construct($config);
     }

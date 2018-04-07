@@ -3,6 +3,11 @@
 namespace backend\controllers\catalog;
 
 
+use backend\forms\catalog\CategorySearch;
+use core\entities\catalog\Category;
+use core\forms\manage\catalog\CategoryForm;
+use core\services\manage\catalog\CategoryManageService;
+use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -31,11 +36,12 @@ class CategoryController extends Controller
 
     /**
      * @return mixed
+     * @throws \yii\base\InvalidArgumentException
      */
     public function actionIndex()
     {
         $searchModel = new CategorySearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $dataProvider = $searchModel->search(\Yii::$app->request->queryParams);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -46,6 +52,8 @@ class CategoryController extends Controller
     /**
      * @param integer $id
      * @return mixed
+     * @throws \yii\base\InvalidArgumentException
+     * @throws \yii\web\NotFoundHttpException
      */
     public function actionView($id)
     {
@@ -56,17 +64,18 @@ class CategoryController extends Controller
 
     /**
      * @return mixed
+     * @throws \yii\base\InvalidArgumentException
      */
     public function actionCreate()
     {
         $form = new CategoryForm();
-        if ($form->load(Yii::$app->request->post()) && $form->validate()) {
+        if ($form->load(\Yii::$app->request->post()) && $form->validate()) {
             try {
                 $category = $this->service->create($form);
                 return $this->redirect(['view', 'id' => $category->id]);
             } catch (\DomainException $e) {
-                Yii::$app->errorHandler->logException($e);
-                Yii::$app->session->setFlash('error', $e->getMessage());
+                \Yii::$app->errorHandler->logException($e);
+                \Yii::$app->session->setFlash('error', $e->getMessage());
             }
         }
         return $this->render('create', [
@@ -76,7 +85,9 @@ class CategoryController extends Controller
 
     /**
      * @param integer $id
-     * @return mixed
+     * @return string|\yii\web\Response
+     * @throws \yii\base\InvalidArgumentException
+     * @throws NotFoundHttpException
      */
     public function actionUpdate($id)
     {

@@ -3,6 +3,7 @@
 namespace backend\controllers;
 
 use yii\web\Controller;
+use yii\web\ErrorAction;
 
 /**
  * Site controller
@@ -16,7 +17,7 @@ class SiteController extends Controller
     {
         return [
             'error' => [
-                'class' => 'yii\web\ErrorAction',
+                'class' => ErrorAction::class,
             ],
         ];
     }
@@ -25,6 +26,7 @@ class SiteController extends Controller
      * Displays homepage.
      *
      * @return string
+     * @throws \yii\base\InvalidArgumentException
      */
     public function actionIndex(): string
     {

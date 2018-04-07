@@ -12,11 +12,8 @@ use yii\helpers\ArrayHelper;
 class CarSearch extends Model
 {
     public $id;
-    public $code;
     public $name;
     public $category_id;
-    public $brand_id;
-    public $quantity;
     public $status;
 
     public function rules(): array
@@ -31,6 +28,7 @@ class CarSearch extends Model
     /**
      * @param array $params
      * @return ActiveDataProvider
+     * @throws \yii\base\InvalidArgumentException
      */
     public function search(array $params): ActiveDataProvider
     {

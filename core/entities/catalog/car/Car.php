@@ -3,7 +3,6 @@
 namespace core\entities\catalog\car;
 
 use core\dataModels\CarData;
-use core\entities\Meta;
 use yii\web\UploadedFile;
 
 
@@ -12,14 +11,14 @@ class Car extends CarData
     public const STATUS_DEACTIVATE = 0;
     public const STATUS_ACTIVE = 1;
 
-    public static function create($categoryId, $name, Meta $meta): self
+    public static function create($categoryId, $name): self
     {
         $car = new static();
         $car->category_id = $categoryId;
         $car->name = $name;
         $car->status = self::STATUS_DEACTIVATE;
         $car->created_at = time();
-        $car->meta = $meta;
+        $car->updated_at = time();
         return $car;
     }
 
@@ -28,10 +27,10 @@ class Car extends CarData
         $this->price = $new;
     }
 
-    public function edit($name, Meta $meta): void
+    public function edit($name): void
     {
         $this->name = $name;
-        $this->meta = $meta;
+        $this->updated_at = time();
     }
 
     public function changeMainCategory($categoryId): void
@@ -47,9 +46,9 @@ class Car extends CarData
         $this->status = self::STATUS_ACTIVE;
     }
 
-    public function draft(): void
+    public function deactivate(): void
     {
-        if ($this->isDraft()) {
+        if ($this->isDeactivate()) {
             throw new \DomainException('Car is already deactivate.');
         }
         $this->status = self::STATUS_DEACTIVATE;
@@ -60,14 +59,9 @@ class Car extends CarData
         return $this->status === self::STATUS_ACTIVE;
     }
 
-    public function isDraft(): bool
+    public function isDeactivate(): bool
     {
         return $this->status === self::STATUS_DEACTIVATE;
-    }
-
-    public function getSeoTitle(): string
-    {
-        return $this->meta->title ?: $this->name;
     }
 
     // Categories
@@ -104,27 +98,21 @@ class Car extends CarData
     // Photo
     public function addPhoto(UploadedFile $file): void
     {
-        $photos = $this->photo;
-        $photos[] = Photo::create($file);
-        $this->updatePhotos($photos);
+        $photo = Photo::create($file);
+        $this->updatePhoto($photo);
     }
 
-    public function removePhoto($id): void
+    public function removePhoto(): void
     {
-        $photos = $this->photos;
-        foreach ($photos as $i => $photo) {
-            if ($photo->isIdEqualTo($id)) {
-                unset($photos[$i]);
-                $this->updatePhotos($photos);
-                return;
-            }
+        if ($photo = $this->photo) {
+            $photo->delete();
+            return;
         }
-        throw new \DomainException('Photo is not found.');
+        throw new \DomainException('Фото не найдено.');
     }
 
-    public function removePhotos(): void
+    public function updatePhoto(Photo $photo = null)
     {
-        $this->updatePhotos([]);
+        $this->photo = $photo;
     }
-
 }

@@ -1,11 +1,9 @@
 <?php
 
-namespace shop\forms\Shop\Search;
+namespace core\forms\catalog\Search;
 
-use shop\entities\Shop\Brand;
-use shop\entities\Shop\Category;
-use shop\entities\Shop\Characteristic;
-use shop\forms\CompositeForm;
+
+use core\forms\CompositeForm;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -15,7 +13,6 @@ class SearchForm extends CompositeForm
 {
     public $text;
     public $category;
-    public $brand;
 
     public function __construct(array $config = [])
     {
@@ -29,7 +26,7 @@ class SearchForm extends CompositeForm
     {
         return [
             [['text'], 'string'],
-            [['category', 'brand'], 'integer'],
+            [['category'], 'integer'],
         ];
     }
 

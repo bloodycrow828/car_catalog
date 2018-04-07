@@ -15,7 +15,6 @@ class m180406_153634_create_catalog_photos_table extends Migration
 
         $this->createTable(self::TABLE_NAME, [
             'id' => $this->primaryKey(),
-            'car_id' => $this->integer()->unsigned()->notNull()->comment('ИД автомобиля'),
             'file' => $this->string()->notNull()->comment('Имя файла'),
         ], $tableOptions);
 

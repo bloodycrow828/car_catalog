@@ -1,6 +1,6 @@
 <?php
 
-namespace core\services;
+namespace core\services\common;
 
 use PHPThumb\GD;
 use Yii;

@@ -25,6 +25,7 @@ class CategorySearch extends Model
     /**
      * @param array $params
      * @return ActiveDataProvider
+     * @throws \yii\base\InvalidArgumentException
      */
     public function search(array $params): ActiveDataProvider
     {

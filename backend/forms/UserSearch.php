@@ -17,7 +17,7 @@ class UserSearch extends Model
     public $status;
     public $role;
 
-    public function rules()
+    public function rules(): array
     {
         return [
             [['id', 'status'], 'integer'],
@@ -29,6 +29,7 @@ class UserSearch extends Model
     /**
      * @param array $params
      * @return ActiveDataProvider
+     * @throws \yii\base\InvalidArgumentException
      */
     public function search(array $params): ActiveDataProvider
     {

@@ -3,16 +3,16 @@
 namespace backend\controllers\catalog;
 
 use backend\forms\catalog\CarSearch;
-
+use core\entities\catalog\car\Car;
 use core\forms\manage\catalog\Car\CarCreateForm;
-use core\forms\manage\catalog\car\CarEditForm;
+use core\forms\manage\catalog\Car\CarEditForm;
 use core\forms\manage\catalog\Car\PhotoForm;
 use core\forms\manage\catalog\Car\PriceForm;
 use core\services\manage\catalog\CarManageService;
 use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 class CarController extends Controller
 {
@@ -39,9 +39,6 @@ class CarController extends Controller
         ];
     }
 
-    /**
-     * @return mixed
-     */
     public function actionIndex()
     {
         $searchModel = new CarSearch();
@@ -56,17 +53,18 @@ class CarController extends Controller
     /**
      * @param integer $id
      * @return mixed
+     * @throws \yii\base\InvalidArgumentException
      * @throws NotFoundHttpException
      */
     public function actionView($id)
     {
-        $product = $this->findModel($id);
+        $car = $this->findModel($id);
         
         $photoForm = new PhotoForm();
         if ($photoForm->load(Yii::$app->request->post()) && $photoForm->validate()) {
             try {
-                $this->service->addPhotos($product->id, $photoForm);
-                return $this->redirect(['view', 'id' => $product->id]);
+                $this->service->addPhoto($car->id, $photoForm);
+                return $this->redirect(['view', 'id' => $car->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -74,21 +72,22 @@ class CarController extends Controller
         }
 
         return $this->render('view', [
-            'product' => $product,
+            'car' => $car,
             'photoForm' => $photoForm,
         ]);
     }
 
     /**
      * @return mixed
+     * @throws \yii\base\InvalidArgumentException
      */
     public function actionCreate()
     {
         $form = new CarCreateForm();
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $product = $this->service->create($form);
-                return $this->redirect(['view', 'id' => $product->id]);
+                $car = $this->service->create($form);
+                return $this->redirect(['view', 'id' => $car->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -102,6 +101,7 @@ class CarController extends Controller
     /**
      * @param integer $id
      * @return mixed
+     * @throws \yii\base\InvalidArgumentException
      * @throws NotFoundHttpException
      */
     public function actionUpdate($id)
@@ -128,17 +128,18 @@ class CarController extends Controller
     /**
      * @param $id
      * @return string|\yii\web\Response
+     * @throws \yii\base\InvalidArgumentException
      * @throws NotFoundHttpException
      */
     public function actionPrice($id)
     {
-        $product = $this->findModel($id);
+        $car = $this->findModel($id);
 
-        $form = new PriceForm($product);
+        $form = new PriceForm($car);
         if ($form->load(Yii::$app->request->post()) && $form->validate()) {
             try {
-                $this->service->changePrice($product->id, $form);
-                return $this->redirect(['view', 'id' => $product->id]);
+                $this->service->changePrice($car->id, $form);
+                return $this->redirect(['view', 'id' => $car->id]);
             } catch (\DomainException $e) {
                 Yii::$app->errorHandler->logException($e);
                 Yii::$app->session->setFlash('error', $e->getMessage());
@@ -146,7 +147,7 @@ class CarController extends Controller
         }
         return $this->render('price', [
             'model' => $form,
-            'product' => $product,
+            'car' => $car,
         ]);
     }
 
@@ -194,13 +195,12 @@ class CarController extends Controller
 
     /**
      * @param integer $id
-     * @param $photo_id
      * @return mixed
      */
-    public function actionDeletePhoto($id, $photo_id)
+    public function actionDeletePhoto($id)
     {
         try {
-            $this->service->removePhoto($id, $photo_id);
+            $this->service->removePhoto($id);
         } catch (\DomainException $e) {
             Yii::$app->session->setFlash('error', $e->getMessage());
         }

@@ -2,7 +2,7 @@
 
 
 use backend\forms\catalog\CarSearch;
-use core\entities\catalog\car;
+use core\entities\catalog\car\Car;
 use core\helpers\CarHelper;
 use core\helpers\PriceHelper;
 use kartik\grid\GridView;

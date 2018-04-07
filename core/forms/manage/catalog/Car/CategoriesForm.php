@@ -1,9 +1,9 @@
 <?php
 
-namespace core\forms\manage\Shop\Product;
+namespace core\forms\manage\catalog\Car;
 
+use core\entities\catalog\car\Car;
 use core\entities\catalog\Category;
-use core\entities\catalog\car;
 use core\helpers\CategoriesHelper;
 use yii\base\Model;
 use yii\helpers\ArrayHelper;

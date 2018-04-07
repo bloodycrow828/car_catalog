@@ -16,8 +16,8 @@ class m180406_134126_create_table_car extends Migration
         $this->createTable(self::TABLE_NAME, [
             'id' => $this->primaryKey()->unsigned()->comment('Id'),
             'category_id' => $this->smallInteger(3)->comment('id модельного ряда'),
-            'title' => $this->string(255)->comment('Название'),
-            'image' => $this->string(255)->comment('Изображение'),
+            'name' => $this->string(255)->comment('Название'),
+            'photo_id' => $this->integer()->comment('Изображение'),
             'price' => $this->integer(11)->comment('Цена'),
             'url' => $this->string(255)->comment('ссылка на страницу'),
             'date' => $this->integer(11)->comment('дата выпуска в формате timestump'),

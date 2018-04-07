@@ -35,10 +35,8 @@
                         ['label' => 'Автомобили', 'icon' => 'file-o', 'url' => ['/catalog/car/index'], 'active' => $this->context->id == 'catalog/car'],
                         ['label' => 'Модели', 'icon' => 'file-o', 'url' => ['/catalog/category/index'], 'active' => $this->context->id == 'catalog/category'],
                     ]],
-
                     ['label' => 'Сервис', 'icon' => 'folder', 'items' => [
-                        ['label' => 'Файловый менеджер', 'icon' => 'file-o', 'url' => ['/file/index'], 'active' => $this->context->id == 'file'],
-                        ['label' => 'Пользователи', 'icon' => 'user', 'url' => ['/user/index'], 'active' => $this->context->id == 'user/index'],
+                        ['label' => 'Пользователи', 'icon' => 'user', 'url' => ['/user/index'], 'active' => $this->context->id == 'user'],
                     ]],
                 ],
             ]

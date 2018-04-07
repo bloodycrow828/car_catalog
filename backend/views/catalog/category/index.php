@@ -1,21 +1,22 @@
 <?php
 
-use shop\entities\Shop\Category;
+use backend\forms\catalog\CategorySearch;
+use core\entities\catalog\Category;
 use yii\grid\ActionColumn;
 use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\forms\Shop\CategorySearch */
+/* @var $searchModel CategorySearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Categories';
+$this->title = 'Модели';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
 
     <p>
-        <?= Html::a('Create Category', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить модель', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <div class="box">
