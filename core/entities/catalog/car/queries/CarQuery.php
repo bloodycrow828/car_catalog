@@ -3,7 +3,7 @@
 namespace core\entities\catalog\car\queries;
 
 
-use core\entities\catalog\car;
+use core\entities\catalog\car\Car;
 use yii\db\ActiveQuery;
 
 class CarQuery extends ActiveQuery

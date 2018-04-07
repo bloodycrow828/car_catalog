@@ -29,7 +29,6 @@ use yii\db\ActiveRecord;
  * @property CategoryAssignment[] $categoryAssignments
  * @property Category[] $categories
  * @property Photo $photo
- * @property Photo $mainPhoto
  */
 class CarData extends ActiveRecord
 {

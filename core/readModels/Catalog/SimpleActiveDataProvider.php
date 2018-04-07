@@ -1,6 +1,6 @@
 <?php
 
-namespace shop\readModels\Shop;
+namespace core\readModels\Catalog;
 
 use yii\base\InvalidConfigException;
 use yii\data\ActiveDataProvider;

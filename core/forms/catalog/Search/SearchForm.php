@@ -2,7 +2,6 @@
 
 namespace core\forms\catalog\Search;
 
-
 use core\forms\CompositeForm;
 use yii\helpers\ArrayHelper;
 

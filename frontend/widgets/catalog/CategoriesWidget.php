@@ -1,13 +1,11 @@
 <?php
 
-namespace frontend\widgets\Shop;
+namespace frontend\widgets\catalog;
 
-use shop\entities\Shop\Category;
-use shop\readModels\Shop\CategoryReadRepository;
-use shop\readModels\Shop\views\CategoryView;
+use core\entities\catalog\Category;
+use core\readModels\Catalog\CategoryReadRepository;
 use yii\base\Widget;
 use yii\helpers\Html;
-use yii\helpers\VarDumper;
 
 class CategoriesWidget extends Widget
 {
@@ -24,65 +22,16 @@ class CategoriesWidget extends Widget
 
     public function run(): string
     {
-        $parents = [];
-        $children = [];
-        $parentId = 0;
-        foreach ($this->categories->getTreeAllWithSubs() as $sub) {
-            if ($sub->category->depth == 1) {
-                $parents[] = $sub;
-                $parentId = $sub->category->id;
-            } else {
-                $children[$parentId][] = $sub;
-            }
-        }
-
-        return Html::tag('ul', implode(PHP_EOL, array_map(function (CategoryView $view) use ($children) {
-
-            $active = $this->active && ($this->active->id == $view->category->id || $this->active->isChildOf($view->category));
-
-            $childrenLi = '';
-            foreach ($children[$view->category->id] as $child) {
-                $childrenA = Html::a(Html::encode($child->category->name) . ' (' . $view->count . ')',
-                    ['/shop/catalog/category', 'id' => $child->category->id]
-                );
-                $childrenLi .= Html::tag('li', $childrenA);
-            }
-
-            $childrenUl = Html::tag('ul', $childrenLi,
-                [
-                    'id' => 'collapseOne' . $view->category->id,
-                    'class' => 'panel-collapse collapse list-category'
-                ]);
-
-
-            $result = Html::a(Html::encode($view->category->name) . ' (' . $view->count . ')',
-                ['/shop/catalog/category', 'id' => $view->category->id],
-                ['class' => $active ? 'active' : '']
+        return Html::tag('div', implode(PHP_EOL, array_map(function ($category) {
+            $indent = ($category->depth > 1 ? str_repeat('&nbsp;&nbsp;&nbsp;', $category->depth - 1) . '- ' : '');
+            $active = $this->active && ($this->active->id == $category->id || $this->active->isChildOf($category));
+            return Html::a(
+                $indent . Html::encode($category->name),
+                ['/shop/catalog/category', 'id' => $category->id],
+                ['class' => $active ? 'list-group-item active' : 'list-group-item']
             );
-            $content = Html::a('<i class="fa fa-plus"></i>',
-                null,
-                [
-                    'data-toggle' => 'collapse',
-                    'data-parent' => '#accordion',
-                    'data-target' => '#collapseOne' . $view->category->id,
-                ]
-            );
-            $result .= Html::tag('span', $content, [
-                'class' => 'head',
-            ]);
-
-
-            $result .= $childrenUl;
-
-            $res = Html::tag('li', $result, [
-                'class' => 'haschild',
-            ]);
-            return $res;
-
-        }, $parents)), [
-            'id' => 'accordion',
-            'class' => 'box-category box-panel',
+        }, $this->categories->getTreeWithSubs($this->active))), [
+            'class' => 'list-group',
         ]);
-
     }
 }

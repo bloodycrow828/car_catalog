@@ -1,8 +1,9 @@
 <?php
 
-namespace frontend\controllers\catalog;
+namespace frontend\controllers;
 
-
+use core\readModels\Catalog\CarReadRepository;
+use core\readModels\Catalog\CategoryReadRepository;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -12,13 +13,11 @@ class CatalogController extends Controller
 
     private $products;
     private $categories;
-    private $brands;
-    private $tags;
 
     public function __construct(
         $id,
         $module,
-        ProductReadRepository $products,
+        CarReadRepository $products,
         CategoryReadRepository $categories,
         $config = []
     )
@@ -26,7 +25,6 @@ class CatalogController extends Controller
         parent::__construct($id, $module, $config);
         $this->products = $products;
         $this->categories = $categories;
-
     }
 
     /**
@@ -50,6 +48,7 @@ class CatalogController extends Controller
      */
     public function actionCategory($id)
     {
+        var_dump('sdsd'); die;
         if (!$category = $this->categories->find($id)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
@@ -62,43 +61,8 @@ class CatalogController extends Controller
         ]);
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-    public function actionBrand($id)
-    {
-        if (!$brand = $this->brands->find($id)) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
 
-        $dataProvider = $this->products->getAllByBrand($brand);
 
-        return $this->render('brand', [
-            'brand' => $brand,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-    /**
-     * @param $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-    public function actionTag($id)
-    {
-        if (!$tag = $this->tags->find($id)) {
-            throw new NotFoundHttpException('The requested page does not exist.');
-        }
-
-        $dataProvider = $this->products->getAllByTag($tag);
-
-        return $this->render('tag', [
-            'tag' => $tag,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
 
     /**
      * @return mixed
