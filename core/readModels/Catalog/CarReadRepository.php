@@ -16,10 +16,10 @@ use yii\helpers\ArrayHelper;
 class CarReadRepository
 {
 
-    public function count(): int
+    /*public function count(): int
     {
         return Car::find()->active()->count();
-    }
+    }*/
 
     public function getAllByRange(int $offset, int $limit): array
     {
@@ -50,6 +50,11 @@ class CarReadRepository
         return $this->getProvider($query);
     }
 
+    public function findBySlug($slug): ?Car
+    {
+        return Car::find()->active()->andWhere(['url' => $slug])->one();
+    }
+
     public function find($id): ?Car
     {
         return Car::find()->active()->andWhere(['id' => $id])->one();
@@ -71,12 +76,8 @@ class CarReadRepository
                         'desc' => ['p.name' => SORT_DESC],
                     ],
                     'price' => [
-                        'asc' => ['p.price_new' => SORT_ASC],
-                        'desc' => ['p.price_new' => SORT_DESC],
-                    ],
-                    'rating' => [
-                        'asc' => ['p.rating' => SORT_ASC],
-                        'desc' => ['p.rating' => SORT_DESC],
+                        'asc' => ['p.price' => SORT_ASC],
+                        'desc' => ['p.price' => SORT_DESC],
                     ],
                 ],
             ],
@@ -121,14 +122,4 @@ class CarReadRepository
         ]);
     }
 
-    public function getWishList($userId): ActiveDataProvider
-    {
-        return new ActiveDataProvider([
-            'query' => Car::find()
-                ->alias('p')->active('p')
-                ->joinWith('wishlistItems w', false, 'INNER JOIN')
-                ->andWhere(['w.user_id' => $userId]),
-            'sort' => false,
-        ]);
-    }
 }

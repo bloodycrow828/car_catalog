@@ -28,8 +28,7 @@ class CategoryUrlRule extends BaseObject implements UrlRuleInterface
 
     public function parseRequest($manager, $request)
     {
-
-        if (preg_match('#^' . $this->prefix . '/(.*[a-z])$#is', $request->pathInfo, $matches)) {
+        if (preg_match('#^' . $this->prefix . '/(.*[a-z0-9])$#is', $request->pathInfo, $matches)) {
             $path = $matches['1'];
 
             $result = $this->cache->getOrSet(['category_route', 'path' => $path], function () use ($path) {
@@ -44,17 +43,17 @@ class CategoryUrlRule extends BaseObject implements UrlRuleInterface
             }
 
             if ($path != $result['path']) {
-                throw new UrlNormalizerRedirectException(['shop/catalog/category', 'id' => $result['id']], 301);
+                throw new UrlNormalizerRedirectException(['catalog/category', 'id' => $result['id']], 301);
             }
 
-            return ['shop/catalog/category', ['id' => $result['id']]];
+            return ['catalog/category', ['id' => $result['id']]];
         }
         return false;
     }
 
     public function createUrl($manager, $route, $params)
     {
-        if ($route == 'shop/catalog/category') {
+        if ($route == 'catalog/category') {
             if (empty($params['id'])) {
                 throw new InvalidArgumentException('Empty id.');
             }

@@ -5,6 +5,7 @@ namespace core\forms\manage\catalog\Car;
 use core\entities\catalog\car\Car;
 use core\forms\CompositeForm;
 use core\helpers\CarHelper;
+use core\validators\SlugValidator;
 
 
 /**
@@ -13,10 +14,12 @@ use core\helpers\CarHelper;
 class CarEditForm extends CompositeForm
 {
     public $name;
+    public $slug;
 
     public function __construct(Car $car, $config = [])
     {
         $this->name = $car->name;
+        $this->slug = $car->url;
         $this->categories = new CategoriesForm($car);
         parent::__construct($config);
     }
@@ -24,8 +27,9 @@ class CarEditForm extends CompositeForm
     public function rules(): array
     {
         return [
-            [['name'], 'required'],
+            [['name', 'slug'], 'required'],
             [['name'], 'string', 'max' => 255],
+            [['slug'], SlugValidator::class],
         ];
     }
 

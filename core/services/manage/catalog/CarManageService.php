@@ -33,7 +33,7 @@ class CarManageService
     {
         $category = $this->categories->get($form->categories->main);
 
-        $car = Car::create($category->id, $form->name);
+        $car = Car::create($category->id, $form->name, $form->slug);
 
         $car->setPrice($form->price->new);
         if ($form->photo->file !== null) {
@@ -43,7 +43,6 @@ class CarManageService
             $category = $this->categories->get($otherId);
             $car->assignCategory($category->id);
         }
-
 
         $this->transaction->wrap(function () use ($car) {
             $this->cars->save($car);
@@ -57,7 +56,7 @@ class CarManageService
         $car = $this->cars->get($id);
         $category = $this->categories->get($form->categories->main);
 
-        $car->edit($form->name);
+        $car->edit($form->name, $form->slug);
 
         $car->changeMainCategory($category->id);
 

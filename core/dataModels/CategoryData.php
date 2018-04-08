@@ -2,9 +2,7 @@
 
 namespace core\dataModels;
 
-use core\entities\behaviors\MetaBehavior;
 use core\entities\catalog\queries\CategoryQuery;
-use core\entities\Meta;
 use paulzi\nestedsets\NestedSetsBehavior;
 use yii\db\ActiveRecord;
 
@@ -17,13 +15,7 @@ use yii\db\ActiveRecord;
  * @property integer $lft
  * @property integer $rgt
  * @property integer $depth
- * @property Meta $meta
  *
- * @property Category $parent
- * @property Category[] $parents
- * @property Category[] $children
- * @property Category $prev
- * @property Category $next
  * @mixin NestedSetsBehavior
  */
 class  CategoryData extends ActiveRecord

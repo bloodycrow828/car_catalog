@@ -11,28 +11,29 @@ class CatalogController extends Controller
 {
     public $layout = 'catalog';
 
-    private $products;
+    private $cars;
     private $categories;
 
     public function __construct(
         $id,
         $module,
-        CarReadRepository $products,
+        CarReadRepository $cars,
         CategoryReadRepository $categories,
         $config = []
     )
     {
         parent::__construct($id, $module, $config);
-        $this->products = $products;
+        $this->cars = $cars;
         $this->categories = $categories;
     }
 
     /**
-     * @return mixed
+     * @return string
+     * @throws \yii\base\InvalidArgumentException
      */
-    public function actionIndex()
+    public function actionIndex(): string
     {
-        $dataProvider = $this->products->getAll();
+        $dataProvider = $this->cars->getAll();
         $category = $this->categories->getRoot();
 
         return $this->render('index', [
@@ -43,25 +44,23 @@ class CatalogController extends Controller
 
     /**
      * @param $id
-     * @return mixed
+     * @return string
+     * @throws \yii\base\InvalidArgumentException
      * @throws NotFoundHttpException
      */
-    public function actionCategory($id)
+    public function actionCategory($id): string
     {
-        var_dump('sdsd'); die;
         if (!$category = $this->categories->find($id)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
-        $dataProvider = $this->products->getAllByCategory($category);
+        $dataProvider = $this->cars->getAllByCategory($category);
 
         return $this->render('category', [
             'category' => $category,
             'dataProvider' => $dataProvider,
         ]);
     }
-
-
 
 
     /**
@@ -73,7 +72,7 @@ class CatalogController extends Controller
         $form->load(\Yii::$app->request->queryParams);
         $form->validate();
 
-        $dataProvider = $this->products->search($form);
+        $dataProvider = $this->cars->search($form);
 
         return $this->render('search', [
             'dataProvider' => $dataProvider,
@@ -81,26 +80,17 @@ class CatalogController extends Controller
         ]);
     }
 
-    /**
-     * @param $id
-     * @return mixed
-     * @throws NotFoundHttpException
-     */
-    public function actionProduct($id)
+
+    public function actionCar($slug)
     {
-        if (!$product = $this->products->find($id)) {
+        if (!$car = $this->cars->findBySlug($slug)) {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
 
         $this->layout = 'blank';
 
-        $cartForm = new AddToCartForm($product);
-        $reviewForm = new ReviewForm();
-
-        return $this->render('product', [
-            'product' => $product,
-            'cartForm' => $cartForm,
-            'reviewForm' => $reviewForm,
+        return $this->render('car', [
+            'car' => $car,
         ]);
     }
 }

@@ -25,7 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="box-body">
                     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
                 </div>
-
+                <div class="box-body">
+                    <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
+                </div>
                 <div class="box-header with-border">Price</div>
                 <div class="box-body">
                     <?= $form->field($model->price, 'new')->textInput(['maxlength' => true]) ?>

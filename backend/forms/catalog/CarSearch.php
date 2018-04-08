@@ -13,14 +13,23 @@ class CarSearch extends Model
 {
     public $id;
     public $name;
-    public $category_id;
+
     public $status;
+    public $category_id;
+
+    public $price_at;
+    public $price_to;
+
+    public $date_from;
+    public $date_to;
+    public $updated_at;
 
     public function rules(): array
     {
         return [
-            [['id', 'category_id', 'status'], 'integer'],
-            [['name'], 'safe'],
+            [['id', 'category_id', 'price_at', 'price_to', 'status'], 'integer'],
+            [['name'], 'string'],
+            [['date_from', 'date_to','updated_at'], 'date', 'format' => 'php:d.m.Y'],
         ];
     }
 
@@ -54,7 +63,17 @@ class CarSearch extends Model
             'status' => $this->status,
         ]);
 
-        $query->andFilterWhere(['like', 'name', $this->name]);
+        $dateFormatter = function ($date) {
+            if ($date) {
+                return (new \DateTime($date))->format('Y-m-d');
+            }
+        };
+
+        $query
+            ->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['between', 'price', $this->price_at, $this->price_to])
+            ->andFilterWhere(['>=', 'date', $dateFormatter($this->date_from) ? $dateFormatter($this->date_from) . ' 00:00:00' : null])
+            ->andFilterWhere(['<=', 'date', $dateFormatter($this->date_to) ? $dateFormatter($this->date_to) . ' 23:59:59' : null]);
 
         return $dataProvider;
     }

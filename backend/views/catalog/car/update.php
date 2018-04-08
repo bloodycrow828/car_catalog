@@ -2,9 +2,8 @@
 
 use core\entities\catalog\car\Car;
 use core\forms\manage\catalog\Car\CarEditForm;
-
-use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $car Car */
@@ -24,6 +23,9 @@ $this->params['breadcrumbs'][] = 'Редактирование';
                 <div class="box-header with-border">Общие сведения</div>
                 <div class="box-body">
                     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+                </div>
+                <div class="box-body">
+                    <?= $form->field($model, 'slug')->textInput(['maxlength' => true]) ?>
                 </div>
             </div>
         </div>

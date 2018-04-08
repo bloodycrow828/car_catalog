@@ -54,6 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'format' => 'raw',
                             ],
                             'name',
+                            'url',
                             [
                                 'attribute' => 'category_id',
                                 'value' => ArrayHelper::getValue($car, 'category.name'),

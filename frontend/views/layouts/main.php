@@ -52,7 +52,7 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'nav navbar-nav'],
         'items' => [
-            ['label' => 'Catalog', 'url' => ['/shop/catalog/index']],
+            ['label' => 'Catalog', 'url' => ['/catalog/index']],
         ],
     ]);
     NavBar::end();

@@ -9,17 +9,6 @@ use yii\widgets\LinkPager;
 
 ?>
 <div class="row">
-    <div class="col-md-2 col-sm-6 hidden-xs">
-        <div class="btn-group btn-group-sm">
-            <button type="button" id="list-view" class="btn btn-default" data-toggle="tooltip" title="List"><i class="fa fa-th-list"></i></button>
-            <button type="button" id="grid-view" class="btn btn-default" data-toggle="tooltip" title="Grid"><i class="fa fa-th"></i></button>
-        </div>
-    </div>
-    <div class="col-md-3 col-sm-6">
-        <div class="form-group">
-            <a href="/index.php?route=product/compare" id="compare-total" class="btn btn-link">Product Compare (0)</a>
-        </div>
-    </div>
     <div class="col-md-4 col-xs-6">
         <div class="form-group input-group input-group-sm">
             <label class="input-group-addon" for="input-sort">Sort By:</label>
@@ -60,7 +49,7 @@ use yii\widgets\LinkPager;
 
 <div class="row">
     <?php foreach ($dataProvider->getModels() as $car): ?>
-        <?= $this->render('_product', [
+        <?= $this->render('_car', [
             'car' => $car
         ]) ?>
     <?php endforeach; ?>

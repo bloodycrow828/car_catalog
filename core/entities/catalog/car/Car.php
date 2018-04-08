@@ -11,11 +11,12 @@ class Car extends CarData
     public const STATUS_DEACTIVATE = 0;
     public const STATUS_ACTIVE = 1;
 
-    public static function create($categoryId, $name): self
+    public static function create($categoryId, $name, $slug): self
     {
         $car = new static();
         $car->category_id = $categoryId;
         $car->name = $name;
+        $car->url = $slug;
         $car->status = self::STATUS_DEACTIVATE;
         $car->created_at = time();
         $car->updated_at = time();
@@ -27,9 +28,10 @@ class Car extends CarData
         $this->price = $new;
     }
 
-    public function edit($name): void
+    public function edit($name, $slug): void
     {
         $this->name = $name;
+        $this->url = $slug;
         $this->updated_at = time();
     }
 

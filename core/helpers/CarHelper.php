@@ -42,8 +42,10 @@ class CarHelper
     public static function attributeLabels(): array
     {
         return [
-            'title' => 'Наименование',
+            'name' => 'Наименование',
             'price' => 'Цена',
+            'date' => 'Дата выпуска',
+            'slug' => 'URL',
             'category_id' => 'Категория',
             'status' => 'Статус',
         ];

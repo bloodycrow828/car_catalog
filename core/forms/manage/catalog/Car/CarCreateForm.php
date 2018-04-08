@@ -3,6 +3,8 @@
 namespace core\forms\manage\catalog\Car;
 
 use core\forms\CompositeForm;
+use core\helpers\CarHelper;
+use core\validators\SlugValidator;
 
 
 /**
@@ -13,6 +15,7 @@ use core\forms\CompositeForm;
 class CarCreateForm extends CompositeForm
 {
     public $name;
+    public $slug;
 
     public function __construct($config = [])
     {
@@ -25,9 +28,15 @@ class CarCreateForm extends CompositeForm
     public function rules(): array
     {
         return [
-            [['name'], 'required'],
+            [['name', 'slug'], 'required'],
             [['name'], 'string', 'max' => 255],
+            ['slug', SlugValidator::class],
         ];
+    }
+
+    public function attributeLabels(): array
+    {
+        return CarHelper::attributeLabels();
     }
 
     protected function internalForms(): array
