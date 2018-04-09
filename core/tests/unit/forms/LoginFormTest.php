@@ -1,10 +1,9 @@
 <?php
 
-namespace shop\tests\unit\forms;
+namespace core\tests\unit\forms;
 
-use Yii;
-use shop\forms\auth\LoginForm;
 use common\fixtures\UserFixture;
+use core\forms\auth\LoginForm;
 
 /**
  * Login form test
@@ -21,7 +20,7 @@ class LoginFormTest extends \Codeception\Test\Unit
     {
         $this->tester->haveFixtures([
             'user' => [
-                'class' => UserFixture::className(),
+                'class' => UserFixture::class,
                 'dataFile' => codecept_data_dir() . 'user.php'
             ]
         ]);

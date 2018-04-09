@@ -4,7 +4,6 @@ namespace core\entities\behaviors;
 
 use League\Flysystem\Filesystem;
 use PHPThumb\GD;
-use yii\base\Exception;
 use yii\helpers\FileHelper;
 use yii\web\UploadedFile;
 use yiidreamteam\upload\ImageUploadBehavior;

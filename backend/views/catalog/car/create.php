@@ -12,7 +12,7 @@ $this->title = 'Добавить Автомобиль';
 $this->params['breadcrumbs'][] = ['label' => 'Автомобили', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="product-create">
+<div class="car-create">
 
     <?php $form = ActiveForm::begin([
         'options' => ['enctype' => 'multipart/form-data']

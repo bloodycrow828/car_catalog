@@ -1,6 +1,7 @@
 <?php
 
 /* @var $this yii\web\View */
+
 /* @var $dataProvider yii\data\DataProviderInterface */
 
 use yii\helpers\Html;
@@ -26,7 +27,8 @@ use yii\widgets\LinkPager;
                 $current = Yii::$app->request->get('sort');
                 ?>
                 <?php foreach ($values as $value => $label): ?>
-                    <option value="<?= Html::encode(Url::current(['sort' => $value ?: null])) ?>" <?php if ($current == $value): ?>selected="selected"<?php endif; ?>><?= $label ?></option>
+                    <option value="<?= Html::encode(Url::current(['sort' => $value ?: null])) ?>"
+                            <?php if ($current == $value): ?>selected="selected"<?php endif; ?>><?= $label ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
@@ -40,13 +42,13 @@ use yii\widgets\LinkPager;
                 $current = $dataProvider->getPagination()->getPageSize();
                 ?>
                 <?php foreach ($values as $value): ?>
-                    <option value="<?= Html::encode(Url::current(['per-page' => $value])) ?>" <?php if ($current == $value): ?>selected="selected"<?php endif; ?>><?= $value ?></option>
+                    <option value="<?= Html::encode(Url::current(['per-page' => $value])) ?>"
+                            <?php if ($current == $value): ?>selected="selected"<?php endif; ?>><?= $value ?></option>
                 <?php endforeach; ?>
             </select>
         </div>
     </div>
 </div>
-
 <div class="row">
     <?php foreach ($dataProvider->getModels() as $car): ?>
         <?= $this->render('_car', [
@@ -61,5 +63,6 @@ use yii\widgets\LinkPager;
             'pagination' => $dataProvider->getPagination(),
         ]) ?>
     </div>
-    <div class="col-sm-6 text-right">Showing <?= $dataProvider->getCount() ?> of <?= $dataProvider->getTotalCount() ?></div>
+    <div class="col-sm-6 text-right">Showing <?= $dataProvider->getCount() ?>
+        of <?= $dataProvider->getTotalCount() ?></div>
 </div>

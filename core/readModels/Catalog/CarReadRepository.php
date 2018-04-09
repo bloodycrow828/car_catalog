@@ -4,22 +4,13 @@ namespace core\readModels\Catalog;
 
 use core\entities\catalog\car\Car;
 use core\entities\catalog\Category;
-use core\forms\catalog\Search\SearchForm;
 use yii\data\ActiveDataProvider;
 use yii\data\DataProviderInterface;
-use yii\data\Pagination;
-use yii\data\Sort;
 use yii\db\ActiveQuery;
-use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 
 class CarReadRepository
 {
-
-    /*public function count(): int
-    {
-        return Car::find()->active()->count();
-    }*/
 
     public function getAllByRange(int $offset, int $limit): array
     {
@@ -87,39 +78,5 @@ class CarReadRepository
         ]);
     }
 
-    public function search(SearchForm $form): DataProviderInterface
-    {
-        $pagination = new Pagination([
-            'pageSizeLimit' => [15, 100],
-            'validatePage' => false,
-        ]);
-
-        $sort = new Sort([
-            'defaultOrder' => ['id' => SORT_DESC],
-            'attributes' => [
-                'id',
-                'name',
-                'price',
-                'rating',
-            ],
-        ]);
-
-        if ($ids) {
-            $query = Car::find()
-                ->active()
-                ->with('photo')
-                ->andWhere(['id' => $ids])
-                ->orderBy(new Expression('FIELD(id,' . implode(',', $ids) . ')'));
-        } else {
-            $query = Car::find()->andWhere(['id' => 0]);
-        }
-
-        return new SimpleActiveDataProvider([
-            'query' => $query,
-            'totalCount' => $response['hits']['total'],
-            'pagination' => $pagination,
-            'sort' => $sort,
-        ]);
-    }
 
 }

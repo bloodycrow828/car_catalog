@@ -1,10 +1,7 @@
 <?php
 namespace core\entities\User;
 
-use lhs\Yii2SaveRelationsBehavior\SaveRelationsBehavior;
 use Yii;
-use yii\behaviors\TimestampBehavior;
-use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 
 /**
@@ -64,7 +61,6 @@ class User extends ActiveRecord
         $user->status = self::STATUS_WAIT;
         $user->email_confirm_token = Yii::$app->security->generateRandomString();
         $user->generateAuthKey();
-        $user->recordEvent(new UserSignUpRequested($user));
         return $user;
     }
 
@@ -75,7 +71,6 @@ class User extends ActiveRecord
         }
         $this->status = self::STATUS_ACTIVE;
         $this->email_confirm_token = null;
-        $this->recordEvent(new UserSignUpConfirmed($this));
     }
 
     public static function signupByNetwork($network, $identity): self
@@ -84,45 +79,7 @@ class User extends ActiveRecord
         $user->created_at = time();
         $user->status = self::STATUS_ACTIVE;
         $user->generateAuthKey();
-        $user->networks = [Network::create($network, $identity)];
         return $user;
-    }
-
-    public function attachNetwork($network, $identity): void
-    {
-        $networks = $this->networks;
-        foreach ($networks as $current) {
-            if ($current->isFor($network, $identity)) {
-                throw new \DomainException('Network is already attached.');
-            }
-        }
-        $networks[] = Network::create($network, $identity);
-        $this->networks = $networks;
-    }
-
-    public function addToWishList($productId): void
-    {
-        $items = $this->wishlistItems;
-        foreach ($items as $item) {
-            if ($item->isForProduct($productId)) {
-                throw new \DomainException('Item is already added.');
-            }
-        }
-        $items[] = WishlistItem::create($productId);
-        $this->wishlistItems = $items;
-    }
-
-    public function removeFromWishList($productId): void
-    {
-        $items = $this->wishlistItems;
-        foreach ($items as $i => $item) {
-            if ($item->isForProduct($productId)) {
-                unset($items[$i]);
-                $this->wishlistItems = $items;
-                return;
-            }
-        }
-        throw new \DomainException('Item is not found.');
     }
 
     public function requestPasswordReset(): void
@@ -152,15 +109,6 @@ class User extends ActiveRecord
         return $this->status === self::STATUS_ACTIVE;
     }
 
-    public function getNetworks(): ActiveQuery
-    {
-        return $this->hasMany(Network::className(), ['user_id' => 'id']);
-    }
-
-    public function getWishlistItems(): ActiveQuery
-    {
-        return $this->hasMany(WishlistItem::class, ['user_id' => 'id']);
-    }
 
     /**
      * @inheritdoc

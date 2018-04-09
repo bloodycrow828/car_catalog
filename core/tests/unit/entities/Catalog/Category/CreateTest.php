@@ -1,10 +1,9 @@
 <?php
 
-namespace shop\tests\unit\entities\Shop\Category;
+namespace score\tests\unit\entities\Catalog\Category;
 
 use Codeception\Test\Unit;
-use shop\entities\Shop\Category;
-use shop\entities\Meta;
+use core\entities\catalog\Category;
 
 class CreateTest extends Unit
 {
@@ -14,14 +13,12 @@ class CreateTest extends Unit
             $name = 'Name',
             $slug = 'slug',
             $title = 'Full header',
-            $description = 'Description',
-            $meta = new Meta('Title', 'Description', 'Keywords')
+            $description = 'Description'
         );
 
         $this->assertEquals($name, $category->name);
         $this->assertEquals($slug, $category->slug);
         $this->assertEquals($title, $category->title);
         $this->assertEquals($description, $category->description);
-        $this->assertEquals($meta, $category->meta);
     }
 }

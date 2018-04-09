@@ -62,26 +62,13 @@ class CatalogController extends Controller
         ]);
     }
 
-
     /**
-     * @return mixed
+     * @param $slug
+     * @return string
+     * @throws \yii\base\InvalidArgumentException
+     * @throws NotFoundHttpException
      */
-    public function actionSearch()
-    {
-        $form = new SearchForm();
-        $form->load(\Yii::$app->request->queryParams);
-        $form->validate();
-
-        $dataProvider = $this->cars->search($form);
-
-        return $this->render('search', [
-            'dataProvider' => $dataProvider,
-            'searchForm' => $form,
-        ]);
-    }
-
-
-    public function actionCar($slug)
+    public function actionCar($slug): string
     {
         if (!$car = $this->cars->findBySlug($slug)) {
             throw new NotFoundHttpException('The requested page does not exist.');
